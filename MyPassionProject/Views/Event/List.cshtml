@@ -1,0 +1,13 @@
+﻿@model IEnumerable<MyPassionProject.Models.EventDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+@foreach (MyPassionProject.Models.EventDto Event in Model)
+            {
+                <div>
+                    <a href="/Event/Find/@Event.EventId"> @Event.Title</a>
+                </div>
+            }

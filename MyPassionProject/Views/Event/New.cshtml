@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Your Event</h2>
+
+<form action="/Event/Create" method="POST">
+    <div>
+        <label>Event Name:</label> <input type="text" name="Title" />
+    </div>
+    <div>
+        <label>Event Location</label> <input type="text" name="Location" />
+    </div>
+    <div>
+        <label>Event Date & Time:</label> <input type="text" name="EventDateTime" />
+    </div>
+    <div>
+        <label>Event Capacity</label> <input type="text" name="Capacity" />
+    </div>
+    <div>
+        <label>Event Details</label> <input type="text" name="Details" />
+    </div>
+    <div>
+        <label>Category</label>
+        <select name="CategoryId">
+            <option value="1">Fun</option>
+            <option value="2">Fare</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+
+    </div>
+</form>

@@ -1,0 +1,23 @@
+﻿@model MyPassionProject.Models.EventDto
+
+@{
+    ViewBag.Title = "Find";
+}
+
+<a href="/Event/List">Go back to list</a>
+<h2>@Model.Title</h2>
+<div>@Model.Location</div>
+<div>@Model.EventDateTime</div>
+<div>@Model.Capacity</div>
+<div>@Model.Details</div>
+
+
+@Html.Partial("~/Views/Shared/_EventPartial.cshtml",Model)
+
+<div>
+    @Html.ActionLink("Delete This Event", "DeleteConfirm", "Event", new { id = Model.EventId }, new { style = "color: #ff0000;" })
+</div>
+
+<div>
+    <a href="/Event/Edit/@Model.EventId">Update This  Event</a>
+</div>
