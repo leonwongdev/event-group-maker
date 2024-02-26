@@ -5,9 +5,16 @@
 }
 
 <h2>List</h2>
-@foreach (MyPassionProject.Models.EventDto Event in Model)
-            {
-                <div>
-                    <a href="/Event/Find/@Event.EventId"> @Event.Title</a>
-                </div>
-            }
+
+@foreach (var Event in Model)
+{
+    <div>
+        <a href="/Event/Find/@Event.EventId"> @Event.Title</a>
+    </div>
+
+}
+
+
+<div>
+    <a href="/Event/New" class="btn btn-primary">Post Your Own Event</a>
+</div>

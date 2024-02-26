@@ -17,4 +17,9 @@ namespace MyPassionProject.Models
         public ICollection<Event> Events { get; set;}
 
     }
+    public class CategoryDto
+    {
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+    }
 }

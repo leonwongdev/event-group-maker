@@ -1,20 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;//should add this to utilize the HttpClient
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;//should add this to utilize the HttpClient
 using System.Diagnostics;
 using MyPassionProject.Models;//should add this to use EventDto 
+using MyPassionProject.Models.ViewModels;
 using System.Web.Script.Serialization;
-using System.Web.UI.WebControls;
 
 
 
 namespace MyPassionProject.Controllers
 {
-    public class EventController : Controller
+    public class EventController : Controller  
     {
+            private static readonly HttpClient client;
+            private JavaScriptSerializer jss = new JavaScriptSerializer();
+
+            static EventController()
+            { 
+            client = new HttpClient();
+                client.BaseAddress = new System.Uri("https://localhost:44317/api/");
+            }
+
+        
         // GET: Event/List
         public ActionResult List()//should be the same as viewbag.title 
         {
@@ -22,7 +31,6 @@ namespace MyPassionProject.Controllers
             //objective: communicate with our event data api to retrieve a list of event
             //curl https://localhost:44317/api/EventData/ListEvents
 
-            HttpClient client = new HttpClient();
             string url = "EventData/ListEvents";// In order to work , need a router like:" https://localhost:44317/api/"before string
             HttpResponseMessage response = client.GetAsync(url).Result;//According to your method, use GetAsync,PostAsync,or ReadAsAsync.
             List<EventDto> Events = response.Content.ReadAsAsync<List<EventDto>>().Result;
@@ -30,36 +38,109 @@ namespace MyPassionProject.Controllers
             //Views/Event/List.cshtml
             return View(Events);
         }
+
+
         //Get:Event/Find/2
         public ActionResult Find(int id)
         {
             //use HTTP client to access infomation
             //objective: communicate with our event data api to retrieve a specific event by ID
             //curl https://localhost:44317/api/EventData/FindEvent/2
-
-            HttpClient client = new HttpClient();
+            
+            FindEvent ViewModel = new FindEvent();
+             
             string convertedId = id.ToString();//super important!!!!
             string url = "EventData/FindEvent/" + convertedId;//In order to work , need a router like:"https://localhost:44317/api/"before string
-            HttpResponseMessage response = client.GetAsync(url).Result;
 
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            
             EventDto SelectedEvent = response.Content.ReadAsAsync<EventDto>().Result;
 
             Debug.WriteLine("event received : ");
             Debug.WriteLine(SelectedEvent.Title);
-            //Views/Event/Find.cshtml
-            return View(SelectedEvent);
+
+            ViewModel.SelectedEvent = SelectedEvent;
+
+            //show associated AppUsers with this Event
+          
+            url = "AppUserData/ListAppUsersForEvent/" + convertedId;
+            response = client.GetAsync(url).Result;
+
+            IEnumerable<AppUserDto> ParticipatingUsers = response.Content.ReadAsAsync<List<AppUserDto>>().Result;
+
+            ViewModel.ParticipatingUsers = ParticipatingUsers;
+
+
+            url = "AppUserData/ListAppUserNotForEvent/" + convertedId;
+          
+            response = client.GetAsync(url).Result;
+
+            IEnumerable<AppUserDto> NotPaticipatingUsers = response.Content.ReadAsAsync<IEnumerable<AppUserDto>>().Result;
+
+                ViewModel.NotPaticipatingUsers = NotPaticipatingUsers;
+            
+            return View(ViewModel);
         }
+
+
         public ActionResult Error()
         {
 
             return View();
         }
 
+
+
+        //POST: Event/Associate/{EventId}/{UserId}
+        [HttpPost]
+        public ActionResult Associate(int EventId, int UserId)
+        {
+
+            Debug.WriteLine("Attempting to associate event:" + EventId + " with AppUser " + UserId);
+    
+            //call our api to associate event with AppUser
+            string convertedEventId = EventId.ToString();
+            string convertedUserId = UserId.ToString();
+
+            string url = "EventData/AssociateEventWithAppUser/" + convertedEventId + "/" + convertedUserId;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("Find/" + EventId);
+        }
+
+
+        //Get: Event/UnAssociate/{EventId}?UserId={UserId}
+        [HttpGet]
+        public ActionResult UnAssociate(int id, int UserId)
+        {
+            Debug.WriteLine("Unassociate "+ id+"with"+UserId);
+            string convertedEventId = id.ToString();
+            string convertedUserId = UserId.ToString();
+
+            string url = "EventData/UnAssociateEventWithAppUser/" + convertedEventId + "/" + convertedUserId;
+            
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+
+            return RedirectToAction("Find/" + id);
+        }
+
+
+
         // GET: Event/New
         public ActionResult New()
         {
+            //infomation about all categories in the system
+            //GET api/CategoryData/ListCategories
+
             return View();
         }
+
+
         // POST: Event/Create
         [HttpPost]
         public ActionResult Create(Event newEvent)
@@ -71,7 +152,6 @@ namespace MyPassionProject.Controllers
             
             string url = "EventData/AddEvent";//In order to work , need a router like:"https://localhost:44317/api/"before string
 
-            JavaScriptSerializer jss = new JavaScriptSerializer();
             string jsonpayload = jss.Serialize(newEvent);
 
             Debug.WriteLine(jsonpayload);
@@ -79,7 +159,6 @@ namespace MyPassionProject.Controllers
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
 
-            HttpClient client = new HttpClient();
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
@@ -96,11 +175,11 @@ namespace MyPassionProject.Controllers
         public ActionResult Edit(int id)
         {
             //grab the event information
+            UpdateEvent ViewModel=new UpdateEvent();
 
             //objective: communicate with our event data api to retrieve a specific event by ID
             //curl https://localhost:44317/api/EventData/FindEvent/9
 
-            HttpClient client = new HttpClient();
             string convertedId = id.ToString();//super important!!!!
             string url = "EventData/FindEvent/" + convertedId; //In order to work, need a router like: "https://localhost:44317/api/"before string
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -109,16 +188,25 @@ namespace MyPassionProject.Controllers
             //Debug.WriteLine(response.StatusCode);
 
             EventDto SelectedEvent = response.Content.ReadAsAsync<EventDto>().Result;
+            
+            ViewModel.SelectedEvent = SelectedEvent;
 
-            return View(SelectedEvent);
+            // all categorys to choose from when updating this event
+            //the existing event information
+            url = "CategoryData/ListCategories/";
+            response = client.GetAsync(url).Result;
+            IEnumerable<CategoryDto> CategoryOptions = response.Content.ReadAsAsync<List<CategoryDto>>().Result;
+
+            ViewModel.CategoryOptions = CategoryOptions;
+
+            return View(ViewModel);
         }
 
         // POST: Event/UpdateEvent/9
         [HttpPost]
         public ActionResult Update(int id, Event newEvent)
         {
-            try
-            {
+            
                 Debug.WriteLine("event info : ");
                 Debug.WriteLine(newEvent.Title);
                 Debug.WriteLine(newEvent.CategoryId);
@@ -128,7 +216,6 @@ namespace MyPassionProject.Controllers
                 //serialize into JSON
                 //Send the request to the API
 
-                JavaScriptSerializer jss = new JavaScriptSerializer();
                 string jsonpayload = jss.Serialize(newEvent);
 
                 Debug.WriteLine(jsonpayload);
@@ -139,24 +226,24 @@ namespace MyPassionProject.Controllers
                 // POST: api/EventData/UpdateEvent/9
                 //Header : Content-Type: application/json
 
-                HttpClient client = new HttpClient();
                 HttpResponseMessage response = client.PostAsync(url, content).Result;
 
                 Debug.WriteLine(response);
-
+                if (response.IsSuccessStatusCode) { 
 
                 return RedirectToAction("Find/" + id);
             }
-            catch
+            else
             {
                 return View();
             }
         }
+
+
         //GET : /Event/DeleteConfirm/{id}
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
-            HttpClient client = new HttpClient();
             string convertedId = id.ToString();//super important!!!!
             string url = "EventData/FindEvent/" + convertedId;//In order to work , need a router like:"https://localhost:44317/api/"before string
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -181,17 +268,15 @@ namespace MyPassionProject.Controllers
         {
             Debug.WriteLine("The Event is ");
             Debug.WriteLine(id);
-           
-            try
-            {
+
                 string convertedId = id.ToString();//super important!!!!
                 string url = "EventData/DeleteEvent/" + convertedId;// In order to work, need a router like: "https://localhost:44317/api/"before string
-                HttpClient client = new HttpClient();
+            
                 HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
                 HttpResponseMessage response = client.PostAsync(url,content).Result;
-                return RedirectToAction("List");
-
-                /* if (response.IsSuccessStatusCode)
+              
+                 if (response.IsSuccessStatusCode)
                  {
                      return RedirectToAction("List");
                  }
@@ -199,12 +284,9 @@ namespace MyPassionProject.Controllers
                  {
 
                      return RedirectToAction("Error");
-                 }*/
-            }
-            catch
-            {
-                return View();
-            }
+                 }
+
+
         }
 
 

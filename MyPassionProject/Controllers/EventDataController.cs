@@ -11,6 +11,7 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace MyPassionProject.Controllers
@@ -30,18 +31,139 @@ namespace MyPassionProject.Controllers
         {
             List<Event> Events = db.Events.ToList();
             List<EventDto> EventDtos = new List<EventDto>();
-            Events.ForEach(b => EventDtos.Add(new EventDto()
+            Events.ForEach(e => EventDtos.Add(new EventDto()
             {
-                EventId = b.EventId,
-                Title = b.Title,
-                CategoryName = b.Category.CategoryName
+                EventId = e.EventId,
+                Title = e.Title,
+                CategoryName = e.Category.CategoryName
             }));
             return EventDtos;
+        }
+        /// <summary>
+        /// Gathers info about all events related to a particular CategoryId
+        /// </summary>
+        /// <param name="id">CategoryId</param>
+        /// <returns>
+        ///</returns>
+        ///GET:api/EventData/ListEventsForCategory/1
+
+        [HttpGet]
+        [ResponseType(typeof(EventDto))]
+        public IHttpActionResult ListEventsForCategory(int id)
+        {
+            Debug.WriteLine("Attempting to List Events for Category");
+            //SQL Equivalent:
+            //Select * from events where events.categoryid = {id}
+
+            List<Event> Events = db.Events.Where(e => e.CategoryId == id).ToList();
+            List<EventDto> EventDtos = new List<EventDto>();
+
+            Events.ForEach(e => EventDtos.Add(new EventDto()
+            {
+                EventId = e.EventId,
+                Title = e.Title,
+                Location = e.Location,
+                EventDateTime = e.EventDateTime,
+                Capacity = e.Capacity,
+                Details = e.Details,
+                CategoryId = e.Category.CategoryId,  // Use e.CategoryId instead of e.Category.CategoryId
+                CategoryName = e.Category.CategoryName
+            }));
+
+            return Ok(EventDtos);
+        }
+        /// <summary>
+        /// Gathers info about all events related to a particular UserId
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <returns>
+        ///</returns>
+        ///GET:api/EventData/ListEventsForAppUser/1
+        [HttpGet]
+        [ResponseType(typeof(EventDto))]
+        public IHttpActionResult ListEventsForAppUser(int id)
+        {
+            //SQL equivalent:
+            //select events.*,eventAppUsers.* from events INNER JOIN 
+            //eventAppUsers on events.eventId = eventAppUsers.eventId
+            //where eventAppUsers.UserId={USERID}
+
+            //all events that have users which match with our ID
+            List<Event> Events = db.Events.Where(
+                e => e.AppUsers.Any(
+                    a => a.UserId == id
+                )).ToList();
+            List<EventDto> EventDtos = new List<EventDto>();
+
+            Events.ForEach(e => EventDtos.Add(new EventDto()
+            {
+                EventId = e.EventId,
+                Title = e.Title,
+                Location = e.Location,
+                EventDateTime = e.EventDateTime,
+                Capacity = e.Capacity,
+                Details = e.Details,
+                CategoryId = e.Category.CategoryId,
+                CategoryName = e.Category.CategoryName
+            }));
+
+            return Ok(EventDtos);
+        }
+
+        //AssociateEventWithAppUser
+        //api/eventData/AssociateEventWithAppUser/9/1
+        [HttpPost]
+        [Route("api/EventData/AssociateEventWithAppUser/{EventId}/{UserId}")]
+        public IHttpActionResult AssociateEventWithAppUser(int EventId, int UserId)
+        {
+
+            Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
+            AppUser SelectedAppUser = db.AppUsers.Find(UserId);
+
+            if (SelectedEvent == null || SelectedAppUser == null)
+            {
+                return NotFound();
+            }
+
+            Debug.WriteLine("input EventId  is: " + EventId);
+            Debug.WriteLine("selected Event Title is: " + SelectedEvent.Title);
+            Debug.WriteLine("input UserId is: " + UserId);
+            Debug.WriteLine("selected UserName is: " + SelectedAppUser.UserName);
+
+            //SQL equivalent:
+            //insert into EventAppUsers (EventId,UserId) values ({EventId}/{UserId})
+
+            SelectedEvent.AppUsers.Add(SelectedAppUser);
+            db.SaveChanges();
+
+            return Ok();
+        }
+        //UnAssociateEventWithAppUser
+        //api/eventData/UnAssociateEventWithAppUser/1/3
+
+        [HttpPost]
+        [Route("api/EventData/UnAssociateEventWithAppUser/{EventId}/{UserId}")]
+        public IHttpActionResult UnAssociateEventWithAppUser(int EventId, int UserId)
+        {
+
+            Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
+            AppUser SelectedAppUser = db.AppUsers.Find(UserId);
+
+            if (SelectedEvent == null || SelectedAppUser == null)
+            {
+                return NotFound();
+            }
+
+
+            SelectedEvent.AppUsers.Remove(SelectedAppUser);
+            db.SaveChanges();
+
+            return Ok();
         }
 
         //FindEvent
         // GET: api/EventData/FindEvent/2
-        [ResponseType(typeof(Event))]
+        [ResponseType(typeof(EventDto))]
         [HttpGet]
         public IHttpActionResult FindEvent(int id)
         {
@@ -50,11 +172,13 @@ namespace MyPassionProject.Controllers
             {
                 EventId = Event.EventId,
                 Title = Event.Title,
-                Location =Event.Location,
-                EventDateTime =Event.EventDateTime,
+                Location = Event.Location,
+                EventDateTime = Event.EventDateTime,
                 Capacity = Event.Capacity,
                 Details = Event.Details,
+                CategoryId = Event.Category.CategoryId,
                 CategoryName = Event.Category.CategoryName
+
             };
             if (Event == null)
             {
@@ -107,9 +231,9 @@ namespace MyPassionProject.Controllers
 
             // Only update properties user want to update
             existingEvent.UpdateDate = updatedEvent.UpdateDate != default
-            ? updatedEvent.UpdateDate   
+            ? updatedEvent.UpdateDate
             : existingEvent.UpdateDate;//I leart that this patten is a short version of if statement. The patten A?B:C means if A then B , else C;
-            // The update datetime should be current datetime, however, since it is a MVP ,I just leave it as original one for now
+                                       // The update datetime should be current datetime, however, since it is a MVP ,I just leave it as original one for now
             existingEvent.Title = updatedEvent.Title ?? existingEvent.Title;//I learnt that this patten is a short version of another if statement. The patten A=B??C means If B is not null, let A=B, otherwise use A=C
             existingEvent.Location = updatedEvent.Location ?? existingEvent.Location;
             existingEvent.EventDateTime = updatedEvent.EventDateTime != default
@@ -117,7 +241,9 @@ namespace MyPassionProject.Controllers
             : existingEvent.EventDateTime;
             existingEvent.Capacity = updatedEvent.Capacity ?? existingEvent.Capacity;
             existingEvent.Details = updatedEvent.Details ?? existingEvent.Details;
-            
+         
+            existingEvent.CategoryId = updatedEvent.CategoryId;
+
 
             try
             {

@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<MyPassionProject.Models.EventDto>
 @{
     ViewBag.Title = "Create";
 }
@@ -29,7 +29,11 @@
         </select>
     </div>
     <div>
-        <input type="submit" value="Create" />
+        <input type="submit" class="btn btn-secondary" value="Create" />
 
     </div>
+    <div>
+        <a href="@Url.Action("List", "Event")" class="btn btn-secondary">Cancel</a>
+    </div>
+
 </form>
