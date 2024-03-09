@@ -136,8 +136,12 @@ namespace MyPassionProject.Controllers
         {
             //infomation about all categories in the system
             //GET api/CategoryData/ListCategories
-
-            return View();
+            FindCategory ViewModel = new FindCategory();
+            string url = "CategoryData/ListCategories";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<CategoryDto> CategoryOptions = response.Content.ReadAsAsync<List<CategoryDto>>().Result;
+            ViewModel.CategoryOptions = CategoryOptions;
+            return View(ViewModel);
         }
 
 
