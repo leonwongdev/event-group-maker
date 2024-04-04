@@ -33,6 +33,9 @@ namespace MyPassionProject.Models
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
+        // Associate Group with Event
+        public ICollection<Group> Groups { get; set; }
+
     }
     public class EventDto
     {

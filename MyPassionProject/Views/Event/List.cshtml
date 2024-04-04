@@ -6,14 +6,25 @@
 
 <h2>List</h2>
 
-@foreach (var Event in Model)
-{
-    <div>
-        <a href="/Event/Find/@Event.EventId"> @Event.Title</a>
-    </div>
-
-}
-
+<div class="row">
+    @foreach (var Event in Model)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">@Event.Title</h2>
+                    <p class="card-text"><strong>Location:</strong> @Event.Location</p>
+                    <p class="card-text"><strong>Date:</strong> @Event.EventDateTime.ToShortDateString()</p>
+                    <p class="card-text"><strong>Capacity:</strong> @Event.Capacity</p>
+                    <p class="card-text"><strong>Details:</strong> @Event.Details</p>
+                    <p class="card-text"><strong>Category:</strong> @Event.CategoryName</p>
+                    <a href="/Event/Find/@Event.EventId" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+            <br />
+        </div>
+    }
+</div>
 
 <div>
     <a href="/Event/New" class="btn btn-primary">Post Your Own Event</a>

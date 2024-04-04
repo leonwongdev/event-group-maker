@@ -1,17 +1,12 @@
 ﻿using MyPassionProject.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Description;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
-using System.Reflection.Emit;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Net;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 
 namespace MyPassionProject.Controllers
@@ -35,7 +30,14 @@ namespace MyPassionProject.Controllers
             {
                 EventId = e.EventId,
                 Title = e.Title,
-                CategoryName = e.Category.CategoryName
+                Location = e.Location,
+                EventDateTime = e.EventDateTime,
+                Capacity = e.Capacity,
+                Details = e.Details,
+                CategoryId = e.Category.CategoryId,
+                CategoryName = e.Category.CategoryName,
+                Groups = e.Groups
+
             }));
             return EventDtos;
         }
@@ -241,7 +243,7 @@ namespace MyPassionProject.Controllers
             : existingEvent.EventDateTime;
             existingEvent.Capacity = updatedEvent.Capacity ?? existingEvent.Capacity;
             existingEvent.Details = updatedEvent.Details ?? existingEvent.Details;
-         
+
             existingEvent.CategoryId = updatedEvent.CategoryId;
 
 
