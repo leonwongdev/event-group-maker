@@ -22,17 +22,14 @@
 @if (Model.SelectedEvent.Groups != null && Model.SelectedEvent.Groups.Count > 0)
 {
     <h3>Team List:</h3>
-
-
     <div class="row">
         @foreach (var group in Model.SelectedEvent.Groups)
         {
-            <h1>Show group id, group requirements, max number of members</h1>
             <div class="col-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Group Id: @group.Id</h5>
-                        <p class="card-text"><strong>Requirements:</strong>@group.Requirements</p>
+                        <p class="card-text"><strong>Requirements: </strong>@group.Requirements</p>
                         <a class="btn btn-primary" href="/teammember/list?groupId=@group.Id&eventId=@Model.SelectedEvent.EventId">View Members</a>
                         <a href="/Team/DeleteConfirm/@group.Id" class="btn btn-danger m-1">Delete Team</a>
                     </div>

@@ -81,7 +81,7 @@ namespace MyPassionProject.Controllers
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    Debug.WriteLine(ex);
+                    Debug.WriteLine($"TeamDataController.CreateTeamWithLeader Exception= {ex}");
                     return InternalServerError();
                 }
             }

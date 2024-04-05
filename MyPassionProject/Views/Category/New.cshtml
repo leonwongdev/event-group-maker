@@ -6,15 +6,16 @@
 <h2>Create New Category</h2>
 
 <form action="/Category/Create" method="POST">
-    <div>
-        <label>Category Name:</label> <input type="text" name="CategoryName" />
+    <div class="mb-2">
+        <label>Category Name:</label>
+        <input type="text" name="CategoryName" class="form-control"/>
     </div>
-    <div>
-        <input type="submit" value="Create Category" />
+    <div >
+        <input type="submit" class="btn btn-success mb-1" value="Create Category" />
 
     </div>
     <div>
-        <a href="@Url.Action("List", "Category")" class="btn btn-secondary">Cancel</a>
+        <a href="@Url.Action("List", "Category")" class="btn btn-primary">Cancel</a>
     </div>
 
 </form>

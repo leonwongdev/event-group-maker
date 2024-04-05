@@ -25,8 +25,8 @@
             @foreach (var userTeam in Model.ApplicationUserGroups)
             {
                 <tr>
-                    <td class="text-white"><a href="mailto:@userTeam.User.Email">@userTeam.User.Email</a></td>
-                    <td class="text-white">@userTeam.User.Bio</td>
+                    <td class=""><a href="mailto:@userTeam.User.Email">@userTeam.User.Email</a></td>
+                    <td class="">@userTeam.User.Bio</td>
                 </tr>
             }
         </tbody>
@@ -37,7 +37,7 @@
         <input type="hidden" name="EventId" value=@Model.Event.EventId />
         @if (isCurrUserInThisTeam)
         {
-            <button type="button" class="btn btn-primary" disabled>Join this group (You are already a group member)</button>
+            <button type="button" class="btn btn-primary mb-2" disabled>Join this group (You are already a group member)</button>
         }
         else
         {
