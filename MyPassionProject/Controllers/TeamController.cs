@@ -25,24 +25,6 @@ namespace HackathonTeamBuilder.Controllers
             jss = new JavaScriptSerializer();
             eventDataController = new EventDataController();
         }
-        /// <summary>
-        /// Display a list of teams for a hackthon
-        /// </summary>
-        /// <param name="id">hackthon id</param>
-        /// <returns></returns>
-        public ActionResult List(int Id)
-        {
-            HttpResponseMessage response = client.GetAsync($"teamdata/ListTeamsByHackathon/{Id}").Result;
-            var teamViewModels = response.Content.ReadAsAsync<TeamViewModel>().Result;
-
-            /*get current user from owin context*/
-            var user = System.Web.HttpContext.Current.GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            ViewBag.CurrentUser = user;
-
-            return View(teamViewModels);
-        }
 
 
         /// <summary>

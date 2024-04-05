@@ -233,6 +233,10 @@
     <Compile Include="Migrations\202404042031303_RemoveHackathonInGroup.Designer.cs">
       <DependentUpon>202404042031303_RemoveHackathonInGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404051415298_RemoveHackathonModel.cs" />
+    <Compile Include="Migrations\202404051415298_RemoveHackathonModel.Designer.cs">
+      <DependentUpon>202404051415298_RemoveHackathonModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUserGroup.cs" />
@@ -241,14 +245,11 @@
     <Compile Include="Models\Constant.cs" />
     <Compile Include="Models\EditUserProfileViewModel.cs" />
     <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\Hackathon.cs" />
-    <Compile Include="Models\HackathonsViewModel.cs" />
     <Compile Include="Models\Helper.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\TeamDTO.cs" />
-    <Compile Include="Models\TeamViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupListViewModel.cs" />
     <Compile Include="Models\ViewModels\UpdateEvent.cs" />
     <Compile Include="Models\ViewModels\FindCategory.cs" />
@@ -415,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202404042031303_RemoveHackathonInGroup.resx">
       <DependentUpon>202404042031303_RemoveHackathonInGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404051415298_RemoveHackathonModel.resx">
+      <DependentUpon>202404051415298_RemoveHackathonModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

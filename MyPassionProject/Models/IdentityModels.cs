@@ -34,7 +34,7 @@ namespace MyPassionProject.Models
         //Add an AppUser entity to our system
         public DbSet<AppUser> AppUsers { get; set; }
 
-        public DbSet<Hackathon> Hackathons { get; set; }
+        //public DbSet<Hackathon> Hackathons { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<ApplicationUserGroup> ApplicationUserTeams { get; set; }
         public static ApplicationDbContext Create()

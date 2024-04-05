@@ -48,38 +48,6 @@ namespace MyPassionProject.Controllers
             }
         }
 
-        /// <summary>
-        /// Get a list of teams by Event id
-        /// </summary>
-        /// <param name="id">Event id</param>
-        /// <returns></returns>
-        // GET: api/teamdata/ListTeamsByEvent/{id}
-        [HttpGet]
-        public IHttpActionResult ListTeamsByEvent(int id)
-        {
-            try
-            {
-                List<TeamDTO> teamsWithLeaders = db.Groups
-                .Where(t => t.EventId == id)
-                .Select(t => new TeamDTO
-                {
-                    TeamLeader = db.Users.FirstOrDefault(u => u.Id == t.TeamLeaderId),
-                    Team = t
-                })
-                .ToList();
-                var currentHackathon = db.Hackathons.Find(id);
-                var teamViewModel = new TeamViewModel
-                {
-                    TeamDTO = teamsWithLeaders,
-                    Hackathon = currentHackathon
-                };
-                return Ok(teamViewModel);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
 
         [HttpPost]
         public IHttpActionResult CreateTeamWithLeader([FromBody] Group group)
