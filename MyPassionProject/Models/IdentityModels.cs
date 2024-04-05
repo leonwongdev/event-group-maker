@@ -31,9 +31,6 @@ namespace MyPassionProject.Models
         //Add an Category entity to our system
         public DbSet<Category> Categories { get; set; }
 
-        //Add an AppUser entity to our system
-        public DbSet<AppUser> AppUsers { get; set; }
-
         //public DbSet<Hackathon> Hackathons { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<ApplicationUserGroup> ApplicationUserTeams { get; set; }
@@ -50,6 +47,9 @@ namespace MyPassionProject.Models
                 .HasForeignKey(e => e.GroupId)
                 .WillCascadeOnDelete(false);
 
+
+
+            // Prevent user being deleted when deleting a group
             modelBuilder.Entity<ApplicationUserGroup>()
              .HasRequired(aug => aug.User)
              .WithMany()

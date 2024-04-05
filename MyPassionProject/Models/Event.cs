@@ -22,9 +22,6 @@ namespace MyPassionProject.Models
         public string Capacity { get; set; }
         public string Details { get; set; }
 
-        //Many AppUsers involved in an event
-        public ICollection<AppUser> AppUsers { get; set; }
-
         //A event belongs to one category
         //A category has many events
 

@@ -79,21 +79,21 @@ namespace MyPassionProject.Controllers
 
             //show associated AppUsers with this Event
 
-            url = "AppUserData/ListAppUsersForEvent/" + convertedId;
-            response = client.GetAsync(url).Result;
+            //url = "AppUserData/ListAppUsersForEvent/" + convertedId;
+            //response = client.GetAsync(url).Result;
 
-            IEnumerable<AppUserDto> ParticipatingUsers = response.Content.ReadAsAsync<List<AppUserDto>>().Result;
+            //IEnumerable<AppUserDto> ParticipatingUsers = response.Content.ReadAsAsync<List<AppUserDto>>().Result;
 
-            ViewModel.ParticipatingUsers = ParticipatingUsers;
+            //ViewModel.ParticipatingUsers = ParticipatingUsers;
 
 
-            url = "AppUserData/ListAppUserNotForEvent/" + convertedId;
+            //url = "AppUserData/ListAppUserNotForEvent/" + convertedId;
 
-            response = client.GetAsync(url).Result;
+            //response = client.GetAsync(url).Result;
 
-            IEnumerable<AppUserDto> NotPaticipatingUsers = response.Content.ReadAsAsync<IEnumerable<AppUserDto>>().Result;
+            //IEnumerable<AppUserDto> NotPaticipatingUsers = response.Content.ReadAsAsync<IEnumerable<AppUserDto>>().Result;
 
-            ViewModel.NotPaticipatingUsers = NotPaticipatingUsers;
+            //ViewModel.NotPaticipatingUsers = NotPaticipatingUsers;
 
             return View(ViewModel);
         }

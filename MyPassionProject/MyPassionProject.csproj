@@ -182,8 +182,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AppUserController.cs" />
-    <Compile Include="Controllers\AppUserDataController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryDataController.cs" />
     <Compile Include="Controllers\EventController.cs" />
@@ -245,10 +243,13 @@
     <Compile Include="Migrations\202404051515379_SetCascadeDeleteNullForUserGroup.Designer.cs">
       <DependentUpon>202404051515379_SetCascadeDeleteNullForUserGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404051521586_RemoveCustomUserModel.cs" />
+    <Compile Include="Migrations\202404051521586_RemoveCustomUserModel.Designer.cs">
+      <DependentUpon>202404051521586_RemoveCustomUserModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUserGroup.cs" />
-    <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Constant.cs" />
     <Compile Include="Models\EditUserProfileViewModel.cs" />
@@ -434,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202404051515379_SetCascadeDeleteNullForUserGroup.resx">
       <DependentUpon>202404051515379_SetCascadeDeleteNullForUserGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404051521586_RemoveCustomUserModel.resx">
+      <DependentUpon>202404051521586_RemoveCustomUserModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

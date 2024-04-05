@@ -90,25 +90,26 @@ namespace MyPassionProject.Controllers
             //where eventAppUsers.UserId={USERID}
 
             //all events that have users which match with our ID
-            List<Event> Events = db.Events.Where(
-                e => e.AppUsers.Any(
-                    a => a.UserId == id
-                )).ToList();
-            List<EventDto> EventDtos = new List<EventDto>();
+            //List<Event> Events = db.Events.Where(
+            //    e => e.AppUsers.Any(
+            //        a => a.UserId == id
+            //    )).ToList();
+            //List<EventDto> EventDtos = new List<EventDto>();
 
-            Events.ForEach(e => EventDtos.Add(new EventDto()
-            {
-                EventId = e.EventId,
-                Title = e.Title,
-                Location = e.Location,
-                EventDateTime = e.EventDateTime,
-                Capacity = e.Capacity,
-                Details = e.Details,
-                CategoryId = e.Category.CategoryId,
-                CategoryName = e.Category.CategoryName
-            }));
+            //Events.ForEach(e => EventDtos.Add(new EventDto()
+            //{
+            //    EventId = e.EventId,
+            //    Title = e.Title,
+            //    Location = e.Location,
+            //    EventDateTime = e.EventDateTime,
+            //    Capacity = e.Capacity,
+            //    Details = e.Details,
+            //    CategoryId = e.Category.CategoryId,
+            //    CategoryName = e.Category.CategoryName
+            //}));
 
-            return Ok(EventDtos);
+            //return Ok(EventDtos);
+            return null;
         }
 
         //AssociateEventWithAppUser
@@ -118,24 +119,24 @@ namespace MyPassionProject.Controllers
         public IHttpActionResult AssociateEventWithAppUser(int EventId, int UserId)
         {
 
-            Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
-            AppUser SelectedAppUser = db.AppUsers.Find(UserId);
+            //Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
+            //AppUser SelectedAppUser = db.AppUsers.Find(UserId);
 
-            if (SelectedEvent == null || SelectedAppUser == null)
-            {
-                return NotFound();
-            }
+            //if (SelectedEvent == null || SelectedAppUser == null)
+            //{
+            //    return NotFound();
+            //}
 
-            Debug.WriteLine("input EventId  is: " + EventId);
-            Debug.WriteLine("selected Event Title is: " + SelectedEvent.Title);
-            Debug.WriteLine("input UserId is: " + UserId);
-            Debug.WriteLine("selected UserName is: " + SelectedAppUser.UserName);
+            //Debug.WriteLine("input EventId  is: " + EventId);
+            //Debug.WriteLine("selected Event Title is: " + SelectedEvent.Title);
+            //Debug.WriteLine("input UserId is: " + UserId);
+            //Debug.WriteLine("selected UserName is: " + SelectedAppUser.UserName);
 
-            //SQL equivalent:
-            //insert into EventAppUsers (EventId,UserId) values ({EventId}/{UserId})
+            ////SQL equivalent:
+            ////insert into EventAppUsers (EventId,UserId) values ({EventId}/{UserId})
 
-            SelectedEvent.AppUsers.Add(SelectedAppUser);
-            db.SaveChanges();
+            //SelectedEvent.AppUsers.Add(SelectedAppUser);
+            //db.SaveChanges();
 
             return Ok();
         }
@@ -147,17 +148,17 @@ namespace MyPassionProject.Controllers
         public IHttpActionResult UnAssociateEventWithAppUser(int EventId, int UserId)
         {
 
-            Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
-            AppUser SelectedAppUser = db.AppUsers.Find(UserId);
+            //Event SelectedEvent = db.Events.Include(e => e.AppUsers).FirstOrDefault(e => e.EventId == EventId);
+            //AppUser SelectedAppUser = db.AppUsers.Find(UserId);
 
-            if (SelectedEvent == null || SelectedAppUser == null)
-            {
-                return NotFound();
-            }
+            //if (SelectedEvent == null || SelectedAppUser == null)
+            //{
+            //    return NotFound();
+            //}
 
 
-            SelectedEvent.AppUsers.Remove(SelectedAppUser);
-            db.SaveChanges();
+            //SelectedEvent.AppUsers.Remove(SelectedAppUser);
+            //db.SaveChanges();
 
             return Ok();
         }
