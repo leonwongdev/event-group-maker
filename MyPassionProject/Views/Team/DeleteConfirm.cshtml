@@ -1,0 +1,7 @@
+﻿@model MyPassionProject.Models.Group
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Confirm Deletion of Group Id: @Model.Id</h2>
+<a href="/Team/Delete?id=@Model.Id&eventId=@Model.EventId" class="btn btn-danger">Confirm Delete</a>

@@ -73,7 +73,7 @@ namespace MyPassionProject.Controllers
             Debug.WriteLine($"EventController.Find: Event title:{SelectedEvent.Title}, Group:{SelectedEvent.Groups}");
             foreach (var group in SelectedEvent.Groups)
             {
-                Debug.WriteLine($"Requirements: {group.Requirements}, max member:{group.MaxNumOfMembers}");
+                Debug.WriteLine($"Requirements: {group.Requirements}");
             }
             ViewModel.SelectedEvent = SelectedEvent;
 

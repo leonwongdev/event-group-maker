@@ -77,7 +77,7 @@ namespace HackathonTeamBuilder.Controllers
                 //return RedirectToAction("List", new { Id = team.HackathonId });
                 Debug.WriteLine("Team Controller.Create: successfully created group");
                 // Redirect to EventController.List
-                return RedirectToAction("List", "Event");
+                return RedirectToAction("Find", "Event", new { id = group.EventId });
             }
             else
             {
@@ -141,7 +141,7 @@ namespace HackathonTeamBuilder.Controllers
         /// <summary>
         /// Display delete confirm page
         /// </summary>
-        /// <param name="id">Id of Team</param>
+        /// <param name="id">Id of Group</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
@@ -175,7 +175,7 @@ namespace HackathonTeamBuilder.Controllers
         /// <param name="hackathonId">hackathon id, for redirect to team listing page of a ceratin hackathon.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Delete(int id, int hackathonId)
+        public ActionResult Delete(int id, int eventId)
         {
 
             string url = "teamdata/delete/" + id;
@@ -183,10 +183,12 @@ namespace HackathonTeamBuilder.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List", new { Id = hackathonId });
+                Debug.WriteLine("Team Controller.Delete: successfully deleted team");
+                return RedirectToAction("Find", "Event", new { id = eventId });
             }
             else
             {
+                Debug.WriteLine("Team Controller.Delete: failed to delete team");
                 ViewBag.ErrorMessage = "Failed to delete the team.";
                 return View("Error");
             }

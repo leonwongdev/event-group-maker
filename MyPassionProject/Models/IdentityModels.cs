@@ -50,6 +50,12 @@ namespace MyPassionProject.Models
                 .HasForeignKey(e => e.GroupId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ApplicationUserGroup>()
+             .HasRequired(aug => aug.User)
+             .WithMany()
+             .HasForeignKey(aug => aug.UserId)
+             .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
     }

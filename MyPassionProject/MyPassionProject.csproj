@@ -237,6 +237,14 @@
     <Compile Include="Migrations\202404051415298_RemoveHackathonModel.Designer.cs">
       <DependentUpon>202404051415298_RemoveHackathonModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404051452599_RemoveMaxNumMemberFieldFromGroup.cs" />
+    <Compile Include="Migrations\202404051452599_RemoveMaxNumMemberFieldFromGroup.Designer.cs">
+      <DependentUpon>202404051452599_RemoveMaxNumMemberFieldFromGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202404051515379_SetCascadeDeleteNullForUserGroup.cs" />
+    <Compile Include="Migrations\202404051515379_SetCascadeDeleteNullForUserGroup.Designer.cs">
+      <DependentUpon>202404051515379_SetCascadeDeleteNullForUserGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUserGroup.cs" />
@@ -356,6 +364,7 @@
     <Content Include="Views\AppUser\Error.cshtml" />
     <Content Include="Views\Team\Create.cshtml" />
     <Content Include="Views\TeamMember\List.cshtml" />
+    <Content Include="Views\Team\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -419,6 +428,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202404051415298_RemoveHackathonModel.resx">
       <DependentUpon>202404051415298_RemoveHackathonModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404051452599_RemoveMaxNumMemberFieldFromGroup.resx">
+      <DependentUpon>202404051452599_RemoveMaxNumMemberFieldFromGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404051515379_SetCascadeDeleteNullForUserGroup.resx">
+      <DependentUpon>202404051515379_SetCascadeDeleteNullForUserGroup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
