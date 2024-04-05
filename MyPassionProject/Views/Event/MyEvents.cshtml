@@ -1,0 +1,40 @@
+﻿@model MyPassionProject.Models.ViewModels.UserProfileViewModel
+@{
+    ViewBag.Title = "MyEvents";
+}
+
+<h1>My Events</h1>
+
+<h2>Personal Information</h2>
+<div>
+    <p>Username: @Model.ApplicationUser.UserName</p>
+    <p>Email: @Model.ApplicationUser.Email</p>
+    <p>Bio: @Model.ApplicationUser.Bio</p>
+</div>
+
+<h2>Events Table</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-white">
+        <thead>
+            <tr>
+                <th>Event Title</th>
+                <th>Group ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var userGroup in Model.ApplicationUserGroups)
+            {
+                <tr>
+                    <td class="">@userGroup.Event.Title</td>
+                    <td class="">@userGroup.Group.Id</td>
+                    <td>@Html.ActionLink("View Event Detail", "Find", "Event", new { id = userGroup.Event.EventId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("View Group Detail", "List", "TeamMember", new { groupId = userGroup.Group.Id, eventId = userGroup.Event.EventId }, new { @class = "btn btn-primary" })</td>
+</tr>
+             }
+         </tbody>
+     </table>
+</div>
+   
+
+

@@ -1,9 +1,13 @@
-﻿using MyPassionProject.Models;//should add this to use EventDto 
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using MyPassionProject.Models;//should add this to use EventDto 
 using MyPassionProject.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;//should add this to utilize the HttpClient
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -96,6 +100,24 @@ namespace MyPassionProject.Controllers
             //ViewModel.NotPaticipatingUsers = NotPaticipatingUsers;
 
             return View(ViewModel);
+        }
+
+        public async Task<ActionResult> MyEvents()
+        {
+            // Get current user object
+            var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            var url = "EventData/ListEventsByUser?userId=" + user.Id;
+            var response = client.GetAsync(url).Result;
+            var userGroups = response.Content.ReadAsAsync<List<ApplicationUserGroup>>().Result;
+            var userProfileViewModel = new UserProfileViewModel
+            {
+                ApplicationUser = user,
+                ApplicationUserGroups = userGroups
+            };
+
+            return View(userProfileViewModel);
         }
 
 

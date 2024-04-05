@@ -79,37 +79,23 @@ namespace MyPassionProject.Controllers
         /// <param name="id">UserId</param>
         /// <returns>
         ///</returns>
-        ///GET:api/EventData/ListEventsForAppUser/1
+        ///GET:api/EventData/ListEventsByUser?userId={userId}
         [HttpGet]
-        [ResponseType(typeof(EventDto))]
-        public IHttpActionResult ListEventsForAppUser(int id)
+        public IHttpActionResult ListEventsByUser(string userId)
         {
-            //SQL equivalent:
-            //select events.*,eventAppUsers.* from events INNER JOIN 
-            //eventAppUsers on events.eventId = eventAppUsers.eventId
-            //where eventAppUsers.UserId={USERID}
 
-            //all events that have users which match with our ID
-            //List<Event> Events = db.Events.Where(
-            //    e => e.AppUsers.Any(
-            //        a => a.UserId == id
-            //    )).ToList();
-            //List<EventDto> EventDtos = new List<EventDto>();
+            try
+            {
+                // From the ApplicationUserGroup Model find all the group and event info by user 
+                List<ApplicationUserGroup> UserGroups = db.ApplicationUserGroups.Where(ug => ug.UserId == userId).ToList();
+                return Ok(UserGroups);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine($"EventDataController.ListEventsByUser Exception={ex}");
+                throw;
+            }
 
-            //Events.ForEach(e => EventDtos.Add(new EventDto()
-            //{
-            //    EventId = e.EventId,
-            //    Title = e.Title,
-            //    Location = e.Location,
-            //    EventDateTime = e.EventDateTime,
-            //    Capacity = e.Capacity,
-            //    Details = e.Details,
-            //    CategoryId = e.Category.CategoryId,
-            //    CategoryName = e.Category.CategoryName
-            //}));
-
-            //return Ok(EventDtos);
-            return null;
         }
 
         //AssociateEventWithAppUser

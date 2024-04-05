@@ -71,7 +71,7 @@ namespace MyPassionProject.Controllers
                         EventId = group.EventId
                     };
 
-                    db.ApplicationUserTeams.Add(userTeam);
+                    db.ApplicationUserGroups.Add(userTeam);
                     db.SaveChanges();
                     Debug.WriteLine("TeamDataController.CreateTeamWithLeader: User and Group has linked");
                     transaction.Commit();
@@ -148,8 +148,8 @@ namespace MyPassionProject.Controllers
                 try
                 {
                     // Remove all records of ApplicationUserTeam by TeamId to maintain referential integrity
-                    var userTeamRecords = db.ApplicationUserTeams.Where(userAndGroup => userAndGroup.GroupId == id);
-                    db.ApplicationUserTeams.RemoveRange(userTeamRecords);
+                    var userTeamRecords = db.ApplicationUserGroups.Where(userAndGroup => userAndGroup.GroupId == id);
+                    db.ApplicationUserGroups.RemoveRange(userTeamRecords);
 
                     // Delete the Team by Id
                     var teamToDelete = db.Groups.Find(id);

@@ -31,7 +31,7 @@ namespace MyPassionProject.Controllers
             try
             {
                 // Query ApplicationUserTeam to get all records where TeamId equals the provided id
-                var teamMembers = context.ApplicationUserTeams
+                var teamMembers = context.ApplicationUserGroups
                     .Where(aut => aut.GroupId == groupId)
                     .ToList();
 
@@ -64,7 +64,7 @@ namespace MyPassionProject.Controllers
             try
             {
                 Debug.Write($"TeamMemberDataController.JoinTeam Event id={userGroup.EventId}, Group Id={userGroup.GroupId}, UserId={userGroup.UserId}");
-                context.ApplicationUserTeams.Add(userGroup);
+                context.ApplicationUserGroups.Add(userGroup);
                 context.SaveChanges();
                 return Ok(userGroup);
             }
@@ -89,8 +89,8 @@ namespace MyPassionProject.Controllers
             {
                 // Attach the team to the context first to fix the issue of
                 // "The object cannot be deleted because it was not found in the ObjectStateManager"
-                context.ApplicationUserTeams.Attach(userGroup);
-                context.ApplicationUserTeams.Remove(userGroup);
+                context.ApplicationUserGroups.Attach(userGroup);
+                context.ApplicationUserGroups.Remove(userGroup);
                 context.SaveChanges();
                 return Ok(userGroup);
             }

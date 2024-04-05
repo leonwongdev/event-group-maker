@@ -33,7 +33,7 @@ namespace MyPassionProject.Models
 
         //public DbSet<Hackathon> Hackathons { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<ApplicationUserGroup> ApplicationUserTeams { get; set; }
+        public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
