@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyPassionProject.Models
@@ -19,7 +20,11 @@ namespace MyPassionProject.Models
         public int EventId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
+
         public virtual Group Group { get; set; }
+
+        [JsonIgnore]
         public virtual Event Event { get; set; }
     }
 }
