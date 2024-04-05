@@ -34,29 +34,29 @@
     </table>
     <form action="/teammember/jointeam" method="post" class="form-normal">
         <input type="hidden" name="UserId" value=@currUserId />
-        <input type="hidden" name="TeamId" value=@currGroup.Id />
+        <input type="hidden" name="GroupId" value=@currGroup.Id />
         <input type="hidden" name="EventId" value=@Model.Event.EventId />
         @if (isCurrUserInThisTeam)
         {
-            <button type="button" class="btn btn-primary" disabled>Join this team (You are already a team member)</button>
+            <button type="button" class="btn btn-primary" disabled>Join this group (You are already a group member)</button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary">Join this team</button>
+            <button type="submit" class="btn btn-primary">Join this group</button>
         }
     </form>
     <form action="/teammember/quitteam" method="post" class="form-normal">
         <input type="hidden" name="UserId" value=@currUserId />
-        <input type="hidden" name="TeamId" value=@currGroup.Id />
+        <input type="hidden" name="GroupId" value=@currGroup.Id />
         <input type="hidden" name="EventId" value=@Model.Event.EventId />
         @if (isCurrUserInThisTeam && !isCurrUserTeamLead)
         {
             // Show quit team button if the user is in this team AND is not the team lead
-            <button type="submit" class="btn btn-danger">Quit this team</button>
+            <button type="submit" class="btn btn-danger">Quit this Group</button>
         }
         else if (isCurrUserTeamLead)
         {
-            <button type="button" class="btn btn-danger" disabled>Quit this team (Team lead cannot quit a team)</button>
+            <button type="button" class="btn btn-danger" disabled>Quit this group (Team lead cannot quit a group)</button>
         }
         else
         {

@@ -36,7 +36,8 @@ namespace MyPassionProject.Controllers
             var response = client.PostAsync("teammemberdata/jointeam", content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List", new { Id = userGroup.GroupId });
+                // Redirect to the list of team members page
+                return RedirectToAction("List", new { groupId = userGroup.GroupId, eventId = userGroup.EventId });
             }
             else
             {
@@ -83,7 +84,7 @@ namespace MyPassionProject.Controllers
             var response = client.PostAsync("teammemberdata/quitteam", content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List", new { Id = userGroup.Group });
+                return RedirectToAction("List", new { groupId = userGroup.GroupId, eventId = userGroup.EventId });
             }
             else
             {

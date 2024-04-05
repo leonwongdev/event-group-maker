@@ -1,6 +1,7 @@
 ﻿using MyPassionProject.Models;
 using MyPassionProject.Models.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
 
@@ -60,20 +61,16 @@ namespace MyPassionProject.Controllers
         public IHttpActionResult JoinTeam(ApplicationUserGroup userGroup)
         {
 
-            /*            ApplicationUserTeam userTeam = new ApplicationUserTeam
-                        {
-                            UserId = team.TeamLeaderId,
-                            TeamId = team.Id,
-                            HackathonId = team.HackathonId
-                        };*/
             try
             {
+                Debug.Write($"TeamMemberDataController.JoinTeam Event id={userGroup.EventId}, Group Id={userGroup.GroupId}, UserId={userGroup.UserId}");
                 context.ApplicationUserTeams.Add(userGroup);
                 context.SaveChanges();
                 return Ok(userGroup);
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"TeamMemberDataController.JoinTeam Exception:{ex}");
                 return InternalServerError(ex);
             }
         }
