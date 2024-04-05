@@ -2,7 +2,7 @@
 {
     public class Constant
     {
-        public static readonly string BASE_URL = "https://hackathonteambuilder20240320220041.azurewebsites.net/api/";
+        public static readonly string BASE_URL = "https://localhost:44317/api/";
 
     }
 }

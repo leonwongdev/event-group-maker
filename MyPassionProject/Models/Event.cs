@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,12 +8,12 @@ namespace MyPassionProject.Models
 {
     public class Event
     {
-        [Key] 
+        [Key]
         public int EventId { get; set; }
         [Column(TypeName = "datetime2")]
 
         public DateTime UpdateDate { get; set; }
-        public string Title {  get; set; }
+        public string Title { get; set; }
         public string Location { get; set; }
         [Column(TypeName = "datetime2")]
         public DateTime EventDateTime { get; set; }
@@ -40,6 +38,7 @@ namespace MyPassionProject.Models
     public class EventDto
     {
         public int EventId { get; set; }
+        public Event Event { get; set; }
         public string Title { get; set; }
         public string Location { get; set; }
         [Column(TypeName = "datetime2")]
@@ -50,6 +49,6 @@ namespace MyPassionProject.Models
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-
+        public ICollection<Group> Groups { get; set; }
     }
 }

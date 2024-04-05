@@ -15,11 +15,11 @@ namespace MyPassionProject.Models
         [Column(Order = 1), ForeignKey("Group")]
         public int GroupId { get; set; }
 
-        [Key, Column(Order = 2), ForeignKey("Hackathon")]
-        public int HackathonId { get; set; }
+        [Key, Column(Order = 2), ForeignKey("Event")]
+        public int EventId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
         public virtual Group Group { get; set; }
-        public virtual Hackathon Hackathon { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

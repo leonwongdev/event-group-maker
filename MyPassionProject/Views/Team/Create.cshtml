@@ -1,0 +1,29 @@
+﻿@model MyPassionProject.Models.Group
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Team for @Model.Event.Title </h2>
+
+@using (Html.BeginForm("Create", "Team", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.EventId);
+
+    @Html.HiddenFor(model => model.TeamLeaderId);
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Requirements, "Requirements")
+        @Html.TextAreaFor(model => model.Requirements, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Requirements, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaxNumOfMembers, "Max Number Of Members")
+        <input type="number" class="form-control" min="2" value="2" name="MaxNumOfMembers" />
+        @Html.ValidationMessageFor(model => model.MaxNumOfMembers, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}

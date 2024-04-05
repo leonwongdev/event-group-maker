@@ -1,0 +1,66 @@
+﻿@model MyPassionProject.Models.ViewModels.GroupListViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "List";
+
+    var currGroup = Model.ApplicationUserGroups[0].Group;
+    var currUserId = User.Identity.GetUserId();
+    var isCurrUserInThisTeam = Model.ApplicationUserGroups.Any(aut => aut.UserId == currUserId);
+    var isCurrUserTeamLead = currGroup.TeamLeaderId == currUserId;
+}
+<h1>@Model.Event.Title</h1>
+<h2>Team ID: @currGroup.Id</h2>
+<div><strong>Requirements:</strong><p>@currGroup.Requirements</p></div>
+<div><strong>Max Number Of Members: </strong>@currGroup.MaxNumOfMembers</div>
+<h2>Member List</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-white">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Bio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var userTeam in Model.ApplicationUserGroups)
+            {
+                <tr>
+                    <td class="text-white"><a href="mailto:@userTeam.User.Email">@userTeam.User.Email</a></td>
+                    <td class="text-white">@userTeam.User.Bio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form action="/teammember/jointeam" method="post" class="form-normal">
+        <input type="hidden" name="UserId" value=@currUserId />
+        <input type="hidden" name="TeamId" value=@currGroup.Id />
+        <input type="hidden" name="EventId" value=@Model.Event.EventId />
+        @if (isCurrUserInThisTeam)
+        {
+            <button type="button" class="btn btn-primary" disabled>Join this team (You are already a team member)</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Join this team</button>
+        }
+    </form>
+    <form action="/teammember/quitteam" method="post" class="form-normal">
+        <input type="hidden" name="UserId" value=@currUserId />
+        <input type="hidden" name="TeamId" value=@currGroup.Id />
+        <input type="hidden" name="EventId" value=@Model.Event.EventId />
+        @if (isCurrUserInThisTeam && !isCurrUserTeamLead)
+        {
+            // Show quit team button if the user is in this team AND is not the team lead
+            <button type="submit" class="btn btn-danger">Quit this team</button>
+        }
+        else if (isCurrUserTeamLead)
+        {
+            <button type="button" class="btn btn-danger" disabled>Quit this team (Team lead cannot quit a team)</button>
+        }
+        else
+        {
+            //
+        }
+    </form>
+</div>

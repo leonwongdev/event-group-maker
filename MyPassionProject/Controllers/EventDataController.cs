@@ -35,8 +35,7 @@ namespace MyPassionProject.Controllers
                 Capacity = e.Capacity,
                 Details = e.Details,
                 CategoryId = e.Category.CategoryId,
-                CategoryName = e.Category.CategoryName,
-                Groups = e.Groups
+                CategoryName = e.Category.CategoryName
 
             }));
             return EventDtos;
@@ -169,7 +168,9 @@ namespace MyPassionProject.Controllers
         [HttpGet]
         public IHttpActionResult FindEvent(int id)
         {
-            Event Event = db.Events.Find(id);
+            // Find Event with Groups 
+            //Event Event = db.Events.Find(id);
+            Event Event = db.Events.Include(e => e.Groups).FirstOrDefault(e => e.EventId == id);
             EventDto EventDto = new EventDto()
             {
                 EventId = Event.EventId,
@@ -179,8 +180,8 @@ namespace MyPassionProject.Controllers
                 Capacity = Event.Capacity,
                 Details = Event.Details,
                 CategoryId = Event.Category.CategoryId,
-                CategoryName = Event.Category.CategoryName
-
+                CategoryName = Event.Category.CategoryName,
+                Groups = Event.Groups
             };
             if (Event == null)
             {

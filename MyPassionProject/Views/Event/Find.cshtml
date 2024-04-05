@@ -11,44 +11,70 @@
 <div>Capacity: @Model.SelectedEvent.Capacity</div>
 <div>Details: @Model.SelectedEvent.Details</div>
 <div>Category:@Model.SelectedEvent.CategoryName</div>
- 
-
-
 
 <div>
-    <a href="/Event/Edit/@Model.SelectedEvent.EventId">Update This  Event</a>
+    <a href="/Event/Edit/@Model.SelectedEvent.EventId" class="btn btn-success">Update This  Event</a>
 </div>
+
+<h2>Available Groups:</h2>
+<a href="/Team/Create?eventId=@Model.SelectedEvent.EventId" class="btn btn-primary mb-2">Create A Team</a>
+
+@if (Model.SelectedEvent.Groups != null && Model.SelectedEvent.Groups.Count > 0)
+{
+    <h3>Team List:</h3>
+
+
+    <div class="row">
+        @foreach (var group in Model.SelectedEvent.Groups)
+        {
+            <h1>Show group id, group requirements, max number of members</h1>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@group.Id</h5>
+                        <p class="card-text">@group.Requirements</p>
+                        <p class="card-text">@group.MaxNumOfMembers</p>
+                    </div>
+                </div>
+            </div>
+                        
+
+        }
+    </div>
+}
+
+
 
 @Html.Partial("~/Views/Shared/_EventPartial.cshtml", Model)
 
 <div>
-    @Html.ActionLink("Delete This Event", "DeleteConfirm", "Event", new { id = Model.SelectedEvent.EventId }, new { style = "color: #ff0000;" })
+    @Html.ActionLink("Delete This Event", "DeleteConfirm", "Event", new { id = Model.SelectedEvent.EventId }, new { @class = "btn btn-danger" })
 </div>
 
 
 
-<div>
-    <h2>Paticipant in this @Model.SelectedEvent.Title:</h2>
-    @foreach (var AppUser in Model.ParticipatingUsers)
-    {
-        <a href="/AppUser/Find/@AppUser.UserId">@AppUser.UserName</a>
-        <a href="/Event/UnAssociate/@Model.SelectedEvent.EventId?UserId=@AppUser.UserId">[x]</a><br />
-    }
-</div>
+@*<div>
+        <h2>Paticipant in this @Model.SelectedEvent.Title:</h2>
+        @foreach (var AppUser in Model.ParticipatingUsers)
+        {
+            <a href="/AppUser/Find/@AppUser.UserId">@AppUser.UserName</a>
+            <a href="/Event/UnAssociate/@Model.SelectedEvent.EventId?UserId=@AppUser.UserId">[x]</a><br />
+        }
+    </div>*@
 
-<div>
-    <h4>Add new paticipant to this Event: @Model.SelectedEvent.Title</h4>
-    <form method="POST" action="/Event/Associate">
-        <input type="hidden" name="EventId" value="@Model.SelectedEvent.EventId">
-        <label for="UserId">Select User:</label>
-        <select name="UserId" id="UserId">
-            @foreach (var AppUser in Model.NotPaticipatingUsers)
-            {
-                <option value="@AppUser.UserId">@AppUser.UserName</option>
-            }
-        </select>
-        <input type="submit" value="Associate AppUser" />
-    </form>
-</div>
+@*<div>
+        <h4>Add new paticipant to this Event: @Model.SelectedEvent.Title</h4>
+        <form method="POST" action="/Event/Associate">
+            <input type="hidden" name="EventId" value="@Model.SelectedEvent.EventId">
+            <label for="UserId">Select User:</label>
+            <select name="UserId" id="UserId">
+                @foreach (var AppUser in Model.NotPaticipatingUsers)
+                {
+                    <option value="@AppUser.UserId">@AppUser.UserName</option>
+                }
+            </select>
+            <input type="submit" value="Associate AppUser" />
+        </form>
+    </div>*@
 
 

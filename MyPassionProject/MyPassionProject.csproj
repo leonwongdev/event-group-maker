@@ -190,6 +190,10 @@
     <Compile Include="Controllers\EventDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\TeamDataController.cs" />
+    <Compile Include="Controllers\TeamMemberController.cs" />
+    <Compile Include="Controllers\TeamMemberDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -225,6 +229,10 @@
     <Compile Include="Migrations\202404040143237_AssocEventGroup.Designer.cs">
       <DependentUpon>202404040143237_AssocEventGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404042031303_RemoveHackathonInGroup.cs" />
+    <Compile Include="Migrations\202404042031303_RemoveHackathonInGroup.Designer.cs">
+      <DependentUpon>202404042031303_RemoveHackathonInGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUserGroup.cs" />
@@ -241,6 +249,7 @@
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\TeamDTO.cs" />
     <Compile Include="Models\TeamViewModel.cs" />
+    <Compile Include="Models\ViewModels\GroupListViewModel.cs" />
     <Compile Include="Models\ViewModels\UpdateEvent.cs" />
     <Compile Include="Models\ViewModels\FindCategory.cs" />
     <Compile Include="Models\ViewModels\FindAppUser.cs" />
@@ -344,9 +353,13 @@
     <Content Include="Views\AppUser\Edit.cshtml" />
     <Content Include="Views\AppUser\DeleteConfirm.cshtml" />
     <Content Include="Views\AppUser\Error.cshtml" />
+    <Content Include="Views\Team\Create.cshtml" />
+    <Content Include="Views\TeamMember\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TeamData\" />
+    <Folder Include="Views\TeamMemberData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -399,6 +412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202404040143237_AssocEventGroup.resx">
       <DependentUpon>202404040143237_AssocEventGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404042031303_RemoveHackathonInGroup.resx">
+      <DependentUpon>202404042031303_RemoveHackathonInGroup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
