@@ -258,6 +258,11 @@ namespace MyPassionProject.Controllers
 
         //DeleteEvent
         // POST: api/EventData/DeleteEvent/14
+        /// <summary>
+        /// Endpoint to delete an event from the database.
+        /// </summary>
+        /// <param name="id">  id of the event </param>
+        /// <returns></returns>
         [ResponseType(typeof(Event))]
         [HttpPost]
         public IHttpActionResult DeleteEvent(int id)

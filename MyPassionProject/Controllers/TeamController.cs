@@ -144,6 +144,7 @@ namespace HackathonTeamBuilder.Controllers
         /// <param name="id">Id of Group</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             var currentUserId = User.Identity.GetUserId();
@@ -175,6 +176,7 @@ namespace HackathonTeamBuilder.Controllers
         /// <param name="hackathonId">hackathon id, for redirect to team listing page of a ceratin hackathon.</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, int eventId)
         {
 

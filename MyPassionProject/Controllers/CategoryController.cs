@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;//should add this to utilize the HttpClient
-using System.Web;
-using System.Web.Mvc;
-using System.Diagnostics;
-using MyPassionProject.Models;//should add this to use CategoryDto 
-using System.Web.Script.Serialization;
-using System.Web.UI.WebControls;
+﻿using MyPassionProject.Models;//should add this to use CategoryDto 
 using MyPassionProject.Models.ViewModels;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;//should add this to utilize the HttpClient
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace MyPassionProject.Controllers
 {
@@ -33,7 +29,7 @@ namespace MyPassionProject.Controllers
             //objective: communicate with our category data api to retrieve a list of Category
             //curl https://localhost:44317/api/CategoryData/ListCategories
 
-           
+
             string url = "CategoryData/ListCategories";// In order to work , need a router like:" https://localhost:44317/api/"before string
             HttpResponseMessage response = client.GetAsync(url).Result;//According to your method, use GetAsync,PostAsync,or ReadAsAsync.
             List<CategoryDto> Categories = response.Content.ReadAsAsync<List<CategoryDto>>().Result;
@@ -59,7 +55,7 @@ namespace MyPassionProject.Controllers
 
             Debug.WriteLine("Category received : ");
             Debug.WriteLine(SelectedCategory.CategoryName);
-        
+
             ViewModel.SelectedCategory = SelectedCategory;
 
             //showcase information about events related to this category
@@ -90,6 +86,7 @@ namespace MyPassionProject.Controllers
 
         // POST: Category/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Category newCategory)
         {
             Debug.WriteLine("the json payload is :");
@@ -120,6 +117,7 @@ namespace MyPassionProject.Controllers
 
 
         // GET: Category/Edit/2
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             //grab the Category information
@@ -140,6 +138,7 @@ namespace MyPassionProject.Controllers
 
         // POST: Category/UpdateCategory/2
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(int id, Category newCategory)
         {
             try
@@ -179,9 +178,10 @@ namespace MyPassionProject.Controllers
 
         //GET : /Category/DeleteConfirm/{id}
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
-       
+
             string convertedId = id.ToString();//super important!!!!
             string url = "CategoryData/FindCategory/" + convertedId;//In order to work , need a router like:"https://localhost:44317/api/"before string
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -202,31 +202,32 @@ namespace MyPassionProject.Controllers
 
         //Post: Category/Delete/{id}
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             Debug.WriteLine("The Category is ");
             Debug.WriteLine(id);
 
 
-                string convertedId = id.ToString();//super important!!!!
-                string url = "CategoryData/DeleteCategory/" + convertedId;// In order to work, need a router like: "https://localhost:44317/api/"before string
-           
-                HttpContent content = new StringContent("");
-                HttpResponseMessage response = client.PostAsync(url, content).Result;
-              
+            string convertedId = id.ToString();//super important!!!!
+            string url = "CategoryData/DeleteCategory/" + convertedId;// In order to work, need a router like: "https://localhost:44317/api/"before string
 
-                if (response.IsSuccessStatusCode)
-                 {
-                     return RedirectToAction("List");
-                 }
-                 else
-                 {
+            HttpContent content = new StringContent("");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
 
-                     return RedirectToAction("Error");
-                 }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("List");
             }
+            else
+            {
 
-        
+                return RedirectToAction("Error");
+            }
+        }
+
+
 
     }
 }

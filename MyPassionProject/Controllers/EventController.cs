@@ -43,7 +43,6 @@ namespace MyPassionProject.Controllers
         }
 
 
-        [Authorize]
         //Get:Event/Find/2
         public ActionResult Find(int id)
         {
@@ -284,7 +283,15 @@ namespace MyPassionProject.Controllers
 
 
         //GET : /Event/DeleteConfirm/{id}
+        /// <summary>
+        /// For showing a confirmation page before deleting an event.
+        /// Only admin can delete the event.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             string convertedId = id.ToString();//super important!!!!
@@ -307,6 +314,7 @@ namespace MyPassionProject.Controllers
 
         //Post: Event/Delete/{id}
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             Debug.WriteLine("The Event is ");
